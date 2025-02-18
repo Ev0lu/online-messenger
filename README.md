@@ -1,73 +1,50 @@
-# Messenger Application
+# React + TypeScript + Vite
 
-A real-time messaging application built with **React**, **Firebase**, **Zustand**, **React-Toastify**, and **Tailwind CSS**. This app allows users to create accounts, log in, send and receive messages, and manage their contacts, offering a seamless, interactive messaging experience.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
+Currently, two official plugins are available:
 
-- **User Authentication**: 
-  - Sign up and log in with email and password via **Firebase Authentication**.
-  - Profile creation with avatar upload and username setting.
-  
-- **Real-Time Messaging**: 
-  - Instant messaging between users with **Firebase Firestore** for real-time updates.
-  
-- **User Status**: 
-  - See the online/offline status of contacts and send messages instantly.
-  - Ability to block users to prevent message interactions.
-  
-- **Contact Management**: 
-  - Search for users and add them as contacts.
-  - Blocked users cannot send messages.
-  
-- **Notifications**: 
-  - **React-Toastify** is used to display notifications for success, errors, and other events like message receipt and account creation.
-  
-- **Responsive Design**: 
-  - Styled with **Tailwind CSS**, the app is responsive and works well on both mobile and desktop devices.
-  
-- **State Management**: 
-  - **Zustand** is used for global state management to handle authentication status, active chats, and message data.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Tech Stack
+## Expanding the ESLint configuration
 
-- **React**: A popular JavaScript library for building user interfaces.
-- **Firebase**: Firebase Authentication for user authentication and Firestore for real-time database.
-- **Zustand**: A simple state management tool for managing global app state.
-- **React-Toastify**: A library for displaying toast notifications to users.
-- **Tailwind CSS**: A utility-first CSS framework for fast and efficient styling.
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-## Installation
+- Configure the top-level `parserOptions` property like this:
 
-To get started with the messenger app, follow these steps:
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-1. Clone the repository:
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-    ```
-    git clone https://github.com/yourusername/messenger-app.git
-    ```
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
-2. Install dependencies:
-
-    ```
-    cd messenger-app
-    npm install
-    ```
-
-3. Set up Firebase:
-    - Create a Firebase project on the [Firebase Console](https://console.firebase.google.com/).
-    - Add your Firebase configuration to the `firebase.js` file.
-
-4. Run the app:
-
-    ```
-    npm run dev
-    ```
-
-5. Open the app in your browser at `http://localhost:5173`.
-
-## Usage
-
-- **Sign Up**: Create an account by providing an email, password, and avatar. Choose a unique username.
-- **Log In**: Use your email and password to log in to your account.
-- **Send Messages**: After logging in, search for other users, send messages, and view their status.
-- **Notifications**: Receive real-time notifications about messages, user actions, and errors.
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
